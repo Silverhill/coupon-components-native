@@ -5,7 +5,11 @@ import { Text } from 'react-native';
 import { Palette, Typography } from '../../styles'
 
 const Title = styled(Text)`
-  font-weight: 900;
+  font-weight: ${(props) => {
+    if(props.light) return 300;
+    else if(props.normal) return 'normal';
+    return 900;
+  }};
   background-color: transparent;
   color: ${props => {
     if (props.color) return props.color

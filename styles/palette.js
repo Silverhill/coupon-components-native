@@ -4,7 +4,7 @@ export const colors = {
   orange: chroma('#E67543'),
   watermelon: chroma('#ff4a67'),
   green: chroma('#767B3A'),
-  dark: chroma('#4A4B21'),
+  dark: chroma('#292d3f'),
   white: chroma('white'),
   black: chroma('black'),
   lightGray: chroma('#e4e4e4'),

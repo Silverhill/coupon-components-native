@@ -8,7 +8,7 @@ export default {
   //   return 'Museo300';
   // },
   size: {
-    small: 14,
+    small: 12,
     regular: 16,
     medium: 20,
     large: 22,

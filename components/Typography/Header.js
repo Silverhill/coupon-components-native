@@ -5,7 +5,11 @@ import { Text } from 'react-native';
 import { Palette, Typography } from '../../styles';
 
 const Header = styled(Text)`
-  font-weight: 900;
+  font-weight: ${props => {
+    if(props.light) return 300;
+    else if(props.bold) return 900;
+    return 'normal';
+  }};
   background-color: transparent;
   color: ${props => {
     if (props.color) return props.color
@@ -20,7 +24,7 @@ const Header = styled(Text)`
     if (props.small) return Typography.size.regular
     else if (props.lead) return Typography.size.large
     return Typography.size.medium
-  }}
-`
+  }};
+`;
 
 export default Header

@@ -6,7 +6,8 @@ import { Palette, Typography } from '../../styles';
 
 const TextBody = styled(Text)`
   font-weight: ${(props) => {
-    if(props.bolder) return '900';
+    if(props.light) return 300;
+    else if(props.bold) return 900;
     return 'normal';
   }};
   background-color: transparent;
