@@ -1,12 +1,4 @@
 export default {
-  // museo(font) {
-  //   if (font === 'lighter') return 'Museo100';
-  //   else if (font === 'normal') return 'Museo300';
-  //   else if (font === 'bolder') return 'Museo500';
-  //   else if (font === 'heavy') return 'Museo700';
-  //   else if (font === 'book') return 'Museo900';
-  //   return 'Museo300';
-  // },
   size: {
     small: 12,
     regular: 16,

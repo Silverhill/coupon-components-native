@@ -64,9 +64,9 @@ const SubTitle = styled(Typo.TextBody)`
   margin-bottom: 10;
 `;
 
-const Coupon = ({ imageSource, avatarSource, title, subTitle, date, numberOfCoupons = 0 }) => {
+const Coupon = ({ imageSource, avatarSource, title, subTitle, date, numberOfCoupons = 0, ...rest }) => {
   return (
-    <Container>
+    <Container {...rest}>
       <CouponContainer>
         <LeftCouponContainer>
           <Avatar

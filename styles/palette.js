@@ -14,7 +14,7 @@ export const colors = {
 };
 
 const palette = {
-  primary: colors.green,
+  primary: colors.strongPink,
   secondary: colors.gray,
   accent: colors.watermelon,
 

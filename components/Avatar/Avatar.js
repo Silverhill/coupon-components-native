@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image } from 'react-native';
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components/native';
 import { Palette } from 'coupon-components-native/styles';
 
@@ -36,12 +37,17 @@ const StyledImage = styled(Image)`
   border-radius: ${props => (props.size / 2)};
 `;
 
-const Avatar = ({ src, size = 40, borderColor, ...rest }) => {
+const Avatar = ({ size = 40, borderColor, ...rest }) => {
   return (
     <Container size={size} borderColor={borderColor}>
       <StyledImage size={size} resizeMode="cover" { ...rest } />
     </Container>
   );
+};
+
+Avatar.propTypes = {
+  size: PropTypes.number,
+  borderColor: PropTypes.string
 };
 
 export default Avatar;

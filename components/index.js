@@ -5,3 +5,4 @@ export { default as RoundButton } from './Button/RoundButton';
 export { default as Input } from './Inputs/Input';
 export { default as Coupon } from './Coupon/Coupon';
 export { default as Avatar } from './Avatar/Avatar';
+export { default as NavBar } from './NavBar/NavBar';
