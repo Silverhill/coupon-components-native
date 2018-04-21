@@ -5,7 +5,8 @@ export default {
     medium: 20,
     large: 22,
     xLarge: 24,
-    big: 28
+    big: 28,
+    jumbo: 50,
   }
 };
 

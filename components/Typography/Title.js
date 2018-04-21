@@ -22,6 +22,7 @@ const Title = styled(Text)`
   }};
   font-size: ${props => {
     if (props.small) return Typography.size.large
+    if (props.jumbo) return Typography.size.jumbo
     return Typography.size.big
   }}
 `

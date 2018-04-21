@@ -24,7 +24,17 @@ const TextBody = styled(Text)`
     if (props.small) return Typography.size.small
     else if (props.lead) return Typography.size.medium
     return Typography.size.regular
-  }}
+  }};
+  line-height: ${props => {
+    if (props.small) return '19';
+    else if (props.lead) return '23';
+    return '23';
+  }};
+  text-align: ${props => {
+    if(props.center) return 'center';
+    else if(props.right) return 'right';
+    return 'left';
+  }};
 `
 
 export default TextBody

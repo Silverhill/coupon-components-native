@@ -4,19 +4,23 @@ export const colors = {
   orange: chroma('#E67543'),
   watermelon: chroma('#ff4a67'),
   green: chroma('#767B3A'),
-  dark: chroma('#292d3f'),
+  dark: chroma('#2d2c2d'),
   white: chroma('white'),
   black: chroma('black'),
-  lightGray: chroma('#e4e4e4'),
+  lightGray: chroma('#f9f9f9'),
   gray: chroma('#b7b7b3'),
   sunshineYellow: chroma('#fffd35'),
-  strongPink: chroma('ff007c')
+  strongPink: chroma('#ff007c'),
+  facebook: chroma('#3c5899'),
+  twitter: chroma('#60a9df'),
+  brightBlue: chroma('#0076ff'),
 };
 
 const palette = {
   primary: colors.strongPink,
   secondary: colors.gray,
   accent: colors.watermelon,
+  secondaryAccent: colors.brightBlue,
 
   text: colors.dark,
   invertedText: colors.white.alpha(0.9).css(),

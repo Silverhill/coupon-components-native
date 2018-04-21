@@ -8,8 +8,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 const StyledInput = styled(TextInput)`
   border-color: ${props => {
-    if(props.isOnFocus) return Palette.accent;
-    return Palette.neutralLight;
+    if(props.isOnFocus) return (props.borderColor || {}).onFocus || Palette.secondaryAccent;
+    return (props.borderColor || {}).normal || Palette.neutralLight;
   }};
   border-width: ${props => props.isOnFocus ? 1 : 1};
   align-self: stretch;
@@ -20,6 +20,15 @@ const StyledInput = styled(TextInput)`
     if (props.pill) return 50;
     return 3;
   }};
+  ${props => props.lineInput &&
+    css`
+      border-top-color: 0;
+      border-left-color: 0;
+      border-right-color: 0;
+      border-radius: 0;
+    `
+  };
+  background-color: ${props => props.backgroundColor || 'transparent'};
 `;
 
 const Container = styled(View)`
@@ -50,7 +59,7 @@ class Input extends Component {
   render() {
     const { isOnFocus } = this.state;
     const { pill, label, input, onChangeText, onBlur, meta,
-    onFocus, value, type = 'text', reduxFormInput, ...rest } = this.props;
+    onFocus, value, type = 'text', reduxFormInput, lineInput, ...rest } = this.props;
 
     let inputProps = {
       onChangeText,
@@ -85,6 +94,7 @@ class Input extends Component {
         </Label>
       )}
       <StyledInput
+          lineInput={lineInput}
           isOnFocus={isOnFocus}
           underlineColorAndroid='transparent'
           pill={pill}

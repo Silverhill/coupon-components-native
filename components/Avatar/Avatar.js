@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components/native';
 import { Palette } from 'coupon-components-native/styles';
@@ -38,10 +38,13 @@ const StyledImage = styled(Image)`
 `;
 
 const Avatar = ({ size = 40, borderColor, ...rest }) => {
+  const image = image && { uri: image };
   return (
-    <Container size={size} borderColor={borderColor}>
-      <StyledImage size={size} resizeMode="cover" { ...rest } />
-    </Container>
+    <TouchableWithoutFeedback onPress={rest.onPress}>
+      <Container size={size} borderColor={borderColor}>
+        <StyledImage size={size} resizeMode="cover" { ...rest } source={image}/>
+      </Container>
+    </TouchableWithoutFeedback>
   );
 };
 

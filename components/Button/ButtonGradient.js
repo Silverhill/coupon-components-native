@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components/native';
+import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo';
 import { TouchableOpacity, View } from 'react-native';
 import { Palette } from '../../styles';
 import Typo from '../Typography';
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo';
-
+import { BUTTON_HEIGHT  } from './buttonConstants';
 
 const StyledButton = styled(LinearGradient)`
-  height: 45;
+  height: ${BUTTON_HEIGHT};
   border-radius: ${props => props.pill ? 50 : 3};
   justify-content: center;
   align-items: center;
@@ -40,7 +40,7 @@ const ButtonGradient = ({ title, onPress, style, disabled, leftIcon, rightIcon, 
       style={disabled ? style : null}
     >
       {leftIcon && <LeftIcon name={leftIcon} size={20} color={iconColor ? iconColor : Palette.dark.css()} />}
-      <Typo.TextBody small inverted bolder>{title}</Typo.TextBody>
+      <Typo.TextBody inverted bold>{title}</Typo.TextBody>
       {rightIcon && <RightIcon name={rightIcon} size={20} color={iconColor ? iconColor : Palette.dark.css()} />}
     </StyledButton>
   );
@@ -52,7 +52,6 @@ const ButtonGradient = ({ title, onPress, style, disabled, leftIcon, rightIcon, 
     </TouchableOpacity>
   );
 };
-
 
 ButtonGradient.defaultProps = {
   title: 'Button',

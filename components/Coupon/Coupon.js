@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, ImageBackground } from 'react-native';
+import { View, ImageBackground, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import { Palette } from '../../styles';
-import { Avatar, Typo } from '../index.js';
+import { Avatar, Typo, ButtonTag } from '../index.js';
 import { Entypo } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
+import { FormattedDate } from 'react-intl';
+import { statusService } from '../../../services';
 
 const COUPON_HEIGHT = 250;
 const Container = styled(View)`
@@ -15,7 +17,7 @@ const Container = styled(View)`
   margin-horizontal: 10;
 `;
 
-const CouponContainer = styled(View)`
+const CouponContainer = styled(TouchableOpacity)`
   overflow: hidden;
   background-color: ${Palette.dark};
   height: ${COUPON_HEIGHT};
@@ -34,9 +36,29 @@ const ImageContainer = styled(ImageBackground)`
   justify-content: flex-end;
 `;
 
+const GradientContainer = styled(LinearGradient)`
+  align-self: stretch;
+  paddingTop: 20;
+  justify-content: space-between;
+`;
+
 const Content = styled(View)`
   margin-bottom: 5;
-  padding-left: 5;
+  padding: 0px 10px;
+`;
+
+const ContentTop = styled(LinearGradient)`
+  align-self: stretch;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  flex-direction: row;
+  align-items: center;
+  padding-horizontal: 5px;
+  padding-top: 10px;
+  padding-bottom: 30px;
 `;
 
 const LeftCouponContainer = styled(View)`
@@ -61,21 +83,32 @@ const DateText = styled(Typo.TextBody)`
 `;
 
 const SubTitle = styled(Typo.TextBody)`
+`;
+
+const Direction = styled(Typo.TextBody)`
   margin-bottom: 10;
 `;
 
-const Coupon = ({ imageSource, avatarSource, title, subTitle, date, numberOfCoupons = 0, ...rest }) => {
+const Title = styled(Typo.Title)`
+  line-height: 22;
+  margin-bottom: 10;
+`;
+
+const Coupon = ({
+  image, title, maker, endAt, startAt, status = 'unavailable',
+  totalCoupons = 0, onPress, address, ...rest, tagButton
+}) => {
+  const imageSource = image && {uri: image};
+  const currentStatus = statusService.getCurrentStatus(status);
+
   return (
     <Container {...rest}>
-      <CouponContainer>
+      <CouponContainer onPress={onPress}>
         <LeftCouponContainer>
-          <Avatar
-            size={50}
-            source={avatarSource}
-          />
+          <Avatar size={50} />
           <Coupons>
             <Icon size={17} name="shop" color={Palette.white.css()} />
-            <Typo.TextBody inverted>{numberOfCoupons}</Typo.TextBody>
+            <Typo.TextBody inverted>{totalCoupons}</Typo.TextBody>
           </Coupons>
         </LeftCouponContainer>
 
@@ -83,28 +116,37 @@ const Coupon = ({ imageSource, avatarSource, title, subTitle, date, numberOfCoup
           resizeMode="cover"
           source={imageSource}
         >
-          <LinearGradient
-            colors={['transparent', Palette.dark.css()]}
-            style={{ alignSelf: 'stretch' }}>
+
+        <ContentTop colors={[Palette.dark.css(), 'transparent']}>
+          <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
+          <ButtonTag backgroundColor={currentStatus.color} title={currentStatus.label} {...tagButton}/>
+        </ContentTop>
+
+          <GradientContainer colors={['transparent', Palette.dark.css()]}>
             <Content>
-              <DateText small inverted>{date}</DateText>
-              <Typo.Title small inverted>{title}</Typo.Title>
-              <SubTitle small inverted bold>{subTitle.toUpperCase()}</SubTitle>
+              <DateText small inverted>{`${startAt} - ${endAt}`}</DateText>
+              <Title small inverted>{title}</Title>
+              {address && <Direction small inverted bold numberOfLines={1}>{address}</Direction>}
             </Content>
-          </LinearGradient>
+          </GradientContainer>
         </ImageContainer>
       </CouponContainer>
     </Container>
   );
 };
 
+Coupon.defaultProps = {
+  onPress: () => null,
+};
+
 Coupon.propTypes = {
-  imageSource: PropTypes.any,
+  image: PropTypes.any,
   avatarSource: PropTypes.any,
   title: PropTypes.string,
-  date: PropTypes.string,
-  subTitle: PropTypes.string,
-  numberOfCoupons: PropTypes.number,
-}
+  endAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  startAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  maker: PropTypes.object,
+  totalCoupons: PropTypes.number,
+};
 
 export default Coupon;

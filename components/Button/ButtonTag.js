@@ -5,28 +5,21 @@ import { TouchableOpacity, View } from 'react-native';
 import { Palette } from '../../styles';
 import Typo from '../Typography';
 import { Ionicons } from '@expo/vector-icons';
-import { BUTTON_HEIGHT  } from './buttonConstants';
 
 const StyledButton = styled(View)`
-  height: ${BUTTON_HEIGHT};
-  ${props => props.width && css`
-    width: ${props.width};
-  `};
+  height: ${props => props.big ? 30 : 20};
   background-color: ${props => {
     if (props.disabled) return Palette.neutral;
     else if (props.backgroundColor) return props.backgroundColor;
     return Palette.accent;
   }};
-  border-radius: ${props => props.pill ? 50 : 3};
+  border-radius: ${props => props.normal ? 3 : 50};
   justify-content: center;
   align-items: center;
-  shadow-offset: 0px 0px;
-  shadow-opacity: 0.3;
-  shadow-radius: 2;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-horizontal: 30;
+  padding-horizontal: 10;
 `;
 
 const LeftIcon = styled(Ionicons)`
@@ -39,12 +32,12 @@ const RightIcon = styled(Ionicons)`
   background-color: transparent;
 `;
 
-const Button = ({ title, pill, backgroundColor, textColor, onPress, style, disabled, leftIcon, rightIcon, iconColor, width, ...rest }) => {
+const ButtonTag = ({ title, normal, big = false, backgroundColor, textColor, onPress, style, disabled, leftIcon, rightIcon, iconColor, width, ...rest }) => {
   const button = (
-    <StyledButton width={width} backgroundColor={backgroundColor} pill={pill} disabled={disabled} style={disabled ? style : null}>
-      {leftIcon && <LeftIcon name={leftIcon} size={20} color={iconColor ? iconColor : Palette.dark.css()} />}
-      <Typo.TextBody bold inverted color={textColor}>{title}</Typo.TextBody>
-      {rightIcon && <RightIcon name={rightIcon} size={20} color={iconColor ? iconColor : Palette.dark.css()} />}
+    <StyledButton big={big} backgroundColor={backgroundColor} normal={normal} disabled={disabled} style={disabled ? style : null}>
+      {leftIcon && <LeftIcon name={leftIcon} size={10} color={iconColor ? iconColor : Palette.dark.css()} />}
+      <Typo.TextBody style={{ fontSize: 10, letterSpacing: 1 }} small bold inverted color={textColor}>{title}</Typo.TextBody>
+      {rightIcon && <RightIcon name={rightIcon} size={10} color={iconColor ? iconColor : Palette.dark.css()} />}
     </StyledButton>
   );
 
@@ -57,16 +50,16 @@ const Button = ({ title, pill, backgroundColor, textColor, onPress, style, disab
 };
 
 
-Button.defaultProps = {
-  title: 'Button',
+ButtonTag.defaultProps = {
+  title: 'Tag',
 };
 
-Button.propTypes = {
+ButtonTag.propTypes = {
   backgroundColor: PropTypes.any,
   textColor: PropTypes.string,
-  pill: PropTypes.bool,
+  normal: PropTypes.bool,
   onPress: PropTypes.func,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([ PropTypes.node, PropTypes.string ]),
   style: PropTypes.any,
   disabled: PropTypes.bool,
   leftIcon: PropTypes.string,
@@ -74,4 +67,4 @@ Button.propTypes = {
   width: PropTypes.string,
 };
 
-export default Button;
+export default ButtonTag;

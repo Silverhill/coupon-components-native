@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { Text } from 'react-native';
 
 import { Palette, Typography } from '../../styles';
@@ -25,6 +25,9 @@ const Header = styled(Text)`
     else if (props.lead) return Typography.size.large
     return Typography.size.medium
   }};
+  ${props => props.center && css`
+    text-align: center;
+  `};
 `;
 
 export default Header
