@@ -98,8 +98,13 @@ const Coupon = ({
   image, title, maker, endAt, startAt, status = 'unavailable',
   totalCoupons = 0, onPress, address, ...rest, tagButton
 }) => {
+  const { huntedCoupons } = rest;
   const imageSource = image && {uri: image};
-  const currentStatus = statusService.getCurrentStatus(status);
+
+  let currentStatus = statusService.getCurrentStatus(status);
+  if(huntedCoupons > 0) {
+    currentStatus = statusService.getCurrentStatus(statusService.constants.HUNTED);
+   }
 
   return (
     <Container {...rest}>

@@ -20,13 +20,15 @@ const StyledButton = styled(View)`
   border-radius: ${props => props.pill ? 50 : 3};
   justify-content: center;
   align-items: center;
-  shadow-offset: 0px 0px;
-  shadow-opacity: 0.3;
-  shadow-radius: 2;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding-horizontal: 30;
+  ${props => props.shadow && css`
+    shadow-offset: 0px 0px;
+    shadow-opacity: 0.3;
+    shadow-radius: 2;
+  `}
 `;
 
 const LeftIcon = styled(Ionicons)`
@@ -39,11 +41,13 @@ const RightIcon = styled(Ionicons)`
   background-color: transparent;
 `;
 
-const Button = ({ title, pill, backgroundColor, textColor, onPress, style, disabled, leftIcon, rightIcon, iconColor, width, ...rest }) => {
+const Button = ({ title, pill, shadow = true, backgroundColor, textColor, onPress, style, disabled, leftIcon, rightIcon, iconColor, width, textProps = { bold: true }, ...rest }) => {
+
+
   const button = (
-    <StyledButton width={width} backgroundColor={backgroundColor} pill={pill} disabled={disabled} style={disabled ? style : null}>
+    <StyledButton shadow={shadow} width={width} backgroundColor={backgroundColor} pill={pill} disabled={disabled} style={disabled ? style : null}>
       {leftIcon && <LeftIcon name={leftIcon} size={20} color={iconColor ? iconColor : Palette.dark.css()} />}
-      <Typo.TextBody bold inverted color={textColor}>{title}</Typo.TextBody>
+      <Typo.TextBody {...textProps} inverted color={textColor}>{title}</Typo.TextBody>
       {rightIcon && <RightIcon name={rightIcon} size={20} color={iconColor ? iconColor : Palette.dark.css()} />}
     </StyledButton>
   );

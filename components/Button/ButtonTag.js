@@ -7,7 +7,7 @@ import Typo from '../Typography';
 import { Ionicons } from '@expo/vector-icons';
 
 const StyledButton = styled(View)`
-  height: ${props => props.big ? 30 : 20};
+  height: ${props => props.big ? 35 : 25};
   background-color: ${props => {
     if (props.disabled) return Palette.neutral;
     else if (props.backgroundColor) return props.backgroundColor;
