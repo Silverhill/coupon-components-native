@@ -37,12 +37,14 @@ const StyledImage = styled(Image)`
   border-radius: ${props => (props.size / 2)};
 `;
 
-const Avatar = ({ size = 40, borderColor, ...rest }) => {
-  const image = image && { uri: image };
+const Avatar = ({ size = 40, borderColor, source, ...rest }) => {
+  let currentSource;
+  if(source) currentSource = { source };
+
   return (
     <TouchableWithoutFeedback onPress={rest.onPress}>
       <Container size={size} borderColor={borderColor}>
-        <StyledImage size={size} resizeMode="cover" { ...rest } source={image}/>
+        <StyledImage size={size} resizeMode="cover" {...currentSource} { ...rest }/>
       </Container>
     </TouchableWithoutFeedback>
   );
