@@ -4,14 +4,9 @@ import { Typo } from 'coupon-components-native';
 import { Palette } from 'coupon-components-native/styles';
 import styled ,{ css } from 'styled-components/native';
 
-const OptionContainer = styled(View)`
-  padding-vertical: 30;
-  padding-horizontal: 10;
-  height: 50;
+const Option = styled(View)`
   background-color: white;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
+  padding: 20px 10px;
   margin-bottom: 5;
   border-radius: 5;
 
@@ -25,9 +20,9 @@ const OptionContainer = styled(View)`
 const ActionSheetOption = ({ onPress, color, label, cancel = false }) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <OptionContainer cancel={cancel}>
+      <Option cancel={cancel}>
         <Typo.TextBody center color={cancel ? Palette.accent.css() : Palette.secondaryAccent.css() }>{label}</Typo.TextBody>
-      </OptionContainer>
+      </Option>
     </TouchableOpacity>
   );
 };

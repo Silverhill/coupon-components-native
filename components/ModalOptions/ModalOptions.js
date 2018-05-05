@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { View, StyleSheet, Modal, TouchableOpacity } from 'react-native'
 import { Button, Typo } from 'coupon-components-native'
 import { Palette } from 'coupon-components-native/styles'
-import { FormattedMessage } from 'react-intl';
 import ActionSheetOption from './ActionSheetOption';
 
 class ModalOptions extends Component {
@@ -13,7 +12,7 @@ class ModalOptions extends Component {
     if(onCloseRequest) onCloseRequest(e);
   }
 
-  handlerClickOption = (e, option) => {
+  handlerClickOption = (option, e) => {
     const { onClickOption } = this.props;
     if(onClickOption) onClickOption(option, e);
   }
@@ -29,7 +28,7 @@ class ModalOptions extends Component {
       cancelLabel,
     } = this.props
 
-    const bgOpacity = { backgroundColor: `rgba(0,0,0,${opacity})` }
+    const bgOpacity = { backgroundColor: Palette.dark.alpha(0.5).css() }
 
     return (
       <Modal
@@ -48,13 +47,12 @@ class ModalOptions extends Component {
                 return (
                   <ActionSheetOption
                     key={`option-${option.id || i}`}
-                    onPress={e => this.handlerClickOption(e, option)}
+                    onPress={e => this.handlerClickOption(option, e)}
                     label={option.label || `Option ${i}`}
                   />
                 )
               })
             }
-
             <ActionSheetOption
               onPress={this.closeModal}
               label={cancelLabel}
