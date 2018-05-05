@@ -7,12 +7,12 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default class HeaderBar extends Component {
   render() {
-    const { title, date = '', avatarOptions = {}, backButton, rightButton, onPressRightButton, rightButtonText, loading } = this.props;
+    const { title, subTitle = '', avatarOptions = {}, backButton, rightButton, onPressRightButton, rightButtonText, loading } = this.props;
 
     return(
       <Container>
-        {date.length > 0 &&
-          <Typo.TextBody secondary small bold>{date.toUpperCase()}</Typo.TextBody>
+        {subTitle.length > 0 &&
+          <Typo.TextBody secondary small bold>{subTitle.toUpperCase()}</Typo.TextBody>
         }
 
         <HeaderContainer>
