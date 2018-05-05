@@ -46,7 +46,6 @@ export default class TopBar extends Component {
 
   render() {
     const { navigation } = this.props;
-    console.log(this.props);
 
     return (
       <Container>
