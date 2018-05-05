@@ -90,7 +90,7 @@ class Input extends Component {
       <Container>
       {label && (
         <Label>
-          <Typo.Header small>{label}</Typo.Header>
+          <Typo.TextBody small bold>{label}</Typo.TextBody>
         </Label>
       )}
       <StyledInput

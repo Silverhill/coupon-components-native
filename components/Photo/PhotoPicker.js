@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ImageBackground, Alert, TouchableOpacity } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
-import { ImagePicker } from 'expo';
+import { ImagePicker, Permissions } from 'expo';
 import uuid from 'uuid';
 import { ModalOptions } from '../index';
 import { Palette } from '../../styles';
@@ -15,7 +15,9 @@ const Preview = styled(TouchableOpacity)`
   ${props => props.height && css`
     height: ${({ height }) => height};
   `}
-  background-color: ${({ bgColor }) => bgColor ? bgColor : Palette.neutralLight };
+  ${props => !props.children && props.bgColor && css`
+    background-color: ${({ bgColor }) => bgColor ? bgColor : Palette.neutralLight };
+  `};
   justify-content: center;
   align-items: center;
   overflow: visible;
@@ -64,7 +66,7 @@ export default class PhotoPicker extends Component {
   state = {
     image: null,
     cameraIsOpen: false,
-    isModalOpen: false
+    isModalOpen: false,
   }
 
   _setModalVisible = visible => {
@@ -72,7 +74,7 @@ export default class PhotoPicker extends Component {
   }
 
   _takePhoto = async() => {
-    const { hasPersmissions } = this.state;
+
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [4, 3]
@@ -131,6 +133,7 @@ export default class PhotoPicker extends Component {
 
     return (
       <Preview
+        children={children}
         {...sizeProps}
         onPress={() => this._setModalVisible(true)}>
         <Container>
