@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ImageBackground, Alert, TouchableOpacity } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
+import PropTypes from 'prop-types';
 import { ImagePicker, Permissions } from 'expo';
 import uuid from 'uuid';
 import { ModalOptions } from '../index';
@@ -110,6 +111,7 @@ export default class PhotoPicker extends Component {
 
   conditionImageState = result => {
     const { onPickerImage } = this.props;
+
     if(!result.cancelled) {
       if(onPickerImage) onPickerImage(result);
       this.setState({ image: result.uri, isModalOpen: false });
@@ -171,4 +173,14 @@ export default class PhotoPicker extends Component {
       </Preview>
     )
   }
+}
+
+PhotoPicker.propTypes = {
+  onPickerImage: PropTypes.func,
+  cancelLabel: PropTypes.oneOfType([ PropTypes.node, PropTypes.string ]),
+  width: PropTypes.string,
+  height: PropTypes.string,
+  children: PropTypes.node,
+  iconPhoto: PropTypes.bool,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 }
