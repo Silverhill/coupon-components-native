@@ -74,22 +74,38 @@ export default class PhotoPicker extends Component {
   }
 
   _takePhoto = async() => {
+    const { status: cameraStatus } = await Permissions.askAsync(Permissions.CAMERA);
+    const { status: rollStatus } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3]
-    });
+    if(cameraStatus === 'granted' && rollStatus === 'granted') {
+      try {
+        const result = await ImagePicker.launchCameraAsync({
+          allowsEditing: true,
+          aspect: [4, 3]
+        });
+        this.conditionImageState(result)
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
-    this.conditionImageState(result)
   }
 
   _pickPhoto = async() => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3]
-    });
+    const { status: rollStatus } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-    this.conditionImageState(result)
+    if(rollStatus === 'granted') {
+      try {
+        const result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          aspect: [4, 3]
+        });
+
+        this.conditionImageState(result)
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   conditionImageState = result => {
@@ -100,20 +116,20 @@ export default class PhotoPicker extends Component {
     }
   };
 
-  requestOption = (option) => {
+  requestOption = async (option) => {
     this._setModalVisible(false);
 
     if(option.id === options[0]['id']) {
-      this._takePhoto();
+      await this._takePhoto();
     }
     if(option.id === options[1]['id']) {
-      this._pickPhoto()
+      await this._pickPhoto()
     }
   }
 
   render () {
     const { image, isModalOpen } = this.state;
-    const { width, height, cancelLabel, children = null } = this.props;
+    const { width, height, cancelLabel, children = null, iconPhoto = false, style } = this.props;
 
     let sizeProps;
     if(width && height) {
@@ -122,7 +138,7 @@ export default class PhotoPicker extends Component {
       };
     }
 
-    const IcoPhoto = (
+    const IcoPhoto = iconPhoto && (
       <IconContent {...sizeProps}>
         <IconPhoto
           name='md-camera'
@@ -136,7 +152,7 @@ export default class PhotoPicker extends Component {
         children={children}
         {...sizeProps}
         onPress={() => this._setModalVisible(true)}>
-        <Container>
+        <Container style={style}>
           {children}
           {!children && image &&
             <ImagePreview source={{uri: image}} {...sizeProps}>
