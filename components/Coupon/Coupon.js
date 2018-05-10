@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import { Palette } from '../../styles';
 import { Avatar, Typo, ButtonTag } from '../index.js';
@@ -17,15 +17,7 @@ const Container = styled(View)`
   margin-horizontal: 10;
 `;
 
-const CouponContainer = styled(TouchableOpacity)`
-  overflow: hidden;
-  background-color: ${Palette.dark};
-  height: ${COUPON_HEIGHT};
-  border-radius: 10;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-`;
+const CouponContainer = styled(TouchableWithoutFeedback)``;
 
 const ImageContainer = styled(ImageBackground)`
   background-color: grey;
@@ -94,47 +86,59 @@ const Title = styled(Typo.Title)`
   margin-bottom: 10;
 `;
 
+const Box = styled(View)`
+  overflow: hidden;
+  background-color: ${Palette.dark};
+  height: ${COUPON_HEIGHT};
+  border-radius: 10;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+`;
+
 const Coupon = ({
   image, title, maker, endAt, startAt, status = 'unavailable',
-  totalCoupons = 0, onPress, address, ...rest, tagButton
+  totalCoupons = 0, onPress, address, ...rest, tagButton,
 }) => {
-  const { huntedCoupons } = rest;
+  const { canHunt = true, huntedCoupons } = rest;
   const imageSource = image && {uri: image};
 
   let currentStatus = statusService.getCurrentStatus(status);
-  if(huntedCoupons > 0) {
+  if(!canHunt) {
     currentStatus = statusService.getCurrentStatus(statusService.constants.HUNTED);
-   }
+  }
 
   return (
     <Container {...rest}>
       <CouponContainer onPress={onPress}>
-        <LeftCouponContainer>
-          <Avatar size={50} />
-          <Coupons>
-            <Icon size={17} name="shop" color={Palette.white.css()} />
-            <Typo.TextBody inverted>{totalCoupons}</Typo.TextBody>
-          </Coupons>
-        </LeftCouponContainer>
+        <Box>
+          <LeftCouponContainer>
+            <Avatar size={50} />
+            <Coupons>
+              <Icon size={17} name="shop" color={Palette.white.css()} />
+              <Typo.TextBody inverted>{(totalCoupons - huntedCoupons)}</Typo.TextBody>
+            </Coupons>
+          </LeftCouponContainer>
 
-        <ImageContainer
-          resizeMode="cover"
-          source={imageSource}
-        >
+          <ImageContainer
+            resizeMode="cover"
+            source={imageSource}
+          >
 
-        <ContentTop colors={[Palette.dark.css(), 'transparent']}>
-          <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
-          <ButtonTag backgroundColor={currentStatus.color} title={currentStatus.label} {...tagButton}/>
-        </ContentTop>
+          <ContentTop colors={[Palette.dark.css(), 'transparent']}>
+            <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
+            <ButtonTag backgroundColor={currentStatus.color} title={currentStatus.label} {...tagButton}/>
+          </ContentTop>
 
-          <GradientContainer colors={['transparent', Palette.dark.css()]}>
-            <Content>
-              <DateText small inverted>{`${startAt} - ${endAt}`}</DateText>
-              <Title small inverted>{title}</Title>
-              {address && <Direction small inverted bold numberOfLines={1}>{address}</Direction>}
-            </Content>
-          </GradientContainer>
-        </ImageContainer>
+            <GradientContainer colors={['transparent', Palette.dark.css()]}>
+              <Content>
+                <DateText small inverted>{`${startAt} - ${endAt}`}</DateText>
+                <Title small inverted>{title}</Title>
+                {address && <Direction small inverted bold numberOfLines={1}>{address}</Direction>}
+              </Content>
+            </GradientContainer>
+          </ImageContainer>
+        </Box>
       </CouponContainer>
     </Container>
   );
