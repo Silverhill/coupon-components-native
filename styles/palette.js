@@ -14,6 +14,8 @@ export const colors = {
   facebook: chroma('#3c5899'),
   twitter: chroma('#60a9df'),
   brightBlue: chroma('#0076ff'),
+  aquamarine: chroma('#02e5b0'),
+  squash: chroma('#f5a623'),
 };
 
 const palette = {
@@ -34,6 +36,8 @@ const palette = {
   error: colors.orange,
   gradientOne: colors.sunshineYellow,
   gradientTwo: colors.strongPink,
+
+  colors,
 };
 
 export default palette;
