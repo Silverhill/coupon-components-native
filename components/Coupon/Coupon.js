@@ -4,7 +4,7 @@ import { View, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import { Palette } from '../../styles';
 import { Avatar, Typo, ButtonTag } from '../index.js';
-import { Entypo } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
 import { FormattedDate } from 'react-intl';
 import { statusService } from '../../../services';
@@ -66,7 +66,7 @@ const Coupons = styled(View)`
   align-items: center;
 `;
 
-const Icon = styled(Entypo)`
+const Icon = styled(MaterialCommunityIcons)`
   margin-right: 10;
 `;
 
@@ -98,7 +98,7 @@ const Box = styled(View)`
 
 const Coupon = ({
   image, title, maker, endAt, startAt, status = 'unavailable',
-  totalCoupons = 0, onPress, address, ...rest, tagButton,
+  totalCoupons = 0, onPress, address, ...rest, tagButton, hideTag = false, hideTotalCoupons = false,
 }) => {
   const { canHunt = true, huntedCoupons } = rest;
   const imageSource = image && {uri: image};
@@ -114,10 +114,10 @@ const Coupon = ({
         <Box>
           <LeftCouponContainer>
             <Avatar size={50} />
-            <Coupons>
-              <Icon size={17} name="shop" color={Palette.white.css()} />
+            {!hideTotalCoupons ? <Coupons>
+              <Icon size={17} name="ticket-confirmation" color={Palette.white.css()} />
               <Typo.TextBody inverted>{(totalCoupons - huntedCoupons)}</Typo.TextBody>
-            </Coupons>
+            </Coupons> : null}
           </LeftCouponContainer>
 
           <ImageContainer
@@ -127,7 +127,7 @@ const Coupon = ({
 
           <ContentTop colors={[Palette.dark.css(), 'transparent']}>
             <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
-            <ButtonTag backgroundColor={currentStatus.color} title={currentStatus.label} {...tagButton}/>
+            {!hideTag && <ButtonTag backgroundColor={currentStatus.color} title={currentStatus.label} {...tagButton}/>}
           </ContentTop>
 
             <GradientContainer colors={['transparent', Palette.dark.css()]}>
