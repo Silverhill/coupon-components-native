@@ -58,7 +58,7 @@ ButtonTag.propTypes = {
   backgroundColor: PropTypes.any,
   textColor: PropTypes.string,
   normal: PropTypes.bool,
-  onPress: PropTypes.func,
+  onPress: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   title: PropTypes.oneOfType([ PropTypes.node, PropTypes.string ]),
   style: PropTypes.any,
   disabled: PropTypes.bool,

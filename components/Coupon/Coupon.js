@@ -141,7 +141,13 @@ const Coupon = ({
 
           <ContentTop colors={[Palette.dark.css(), 'transparent']}>
             <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
-            {!hideTag && <ButtonTag onPress={tagButton.onPress && tagButton.onPress} backgroundColor={status.color} title={status.label} {...tagButton}/>}
+            {!hideTag &&
+              <ButtonTag
+                onPress={tagButton.onPress && tagButton.onPress}
+                backgroundColor={status.color}
+                title={status.label}
+                {...tagButton}
+              />}
           </ContentTop>
 
             <GradientContainer colors={['transparent', Palette.dark.css()]}>
