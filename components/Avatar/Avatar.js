@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components/native';
 import { Palette } from 'coupon-components-native/styles';
 
 const Avatar = ({ size = 50, borderColor, source, style, ...rest}) => {
-  let currentSource;
+  let currentSource = source;
   if((source || {}).uri || '') {
     currentSource = { source };
   }

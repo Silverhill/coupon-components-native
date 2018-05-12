@@ -7,7 +7,7 @@ import Typo from '../Typography';
 import { Ionicons } from '@expo/vector-icons';
 
 const StyledButton = styled(View)`
-  height: ${props => props.big ? 35 : 25};
+  height: ${props => props.big ? 35 : 20};
   background-color: ${props => {
     if (props.disabled) return Palette.neutral;
     else if (props.backgroundColor) return props.backgroundColor;
@@ -41,7 +41,7 @@ const ButtonTag = ({ title, normal, big = false, backgroundColor, textColor, onP
     </StyledButton>
   );
 
-  if (disabled) return button;
+  if (disabled || !onPress) return button;
   return (
     <TouchableOpacity onPress={onPress} style={style} { ...rest }>
       {button}

@@ -9,7 +9,7 @@ import Typo from '../Typography';
 import { BUTTON_HEIGHT  } from './buttonConstants';
 
 const StyledButton = styled(LinearGradient)`
-  height: ${BUTTON_HEIGHT};
+height: ${BUTTON_HEIGHT};
   border-radius: ${props => props.pill ? 50 : 3};
   justify-content: center;
   align-items: center;

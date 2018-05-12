@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, ImageBackground, TouchableWithoutFeedback } from 'react-native';
+import { View, ImageBackground, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import { Palette } from '../../styles';
-import { Avatar, Typo, ButtonTag } from '../index.js';
+import { Avatar, Typo, ButtonTag, ButtonGradient } from '../index.js';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
-import { FormattedDate } from 'react-intl';
-import { statusService } from '../../../services';
 
 const COUPON_HEIGHT = 250;
 const Container = styled(View)`
@@ -15,6 +13,8 @@ const Container = styled(View)`
   align-self: stretch;
   border-radius: 10;
   margin-horizontal: 10;
+  position: relative;
+  align-items: center;
 `;
 
 const CouponContainer = styled(TouchableWithoutFeedback)``;
@@ -96,27 +96,41 @@ const Box = styled(View)`
   flex-direction: row;
 `;
 
-const Coupon = ({
-  image, title, maker, endAt, startAt, status = 'unavailable',
-  totalCoupons = 0, onPress, address, ...rest, tagButton, hideTag = false, hideTotalCoupons = false,
-}) => {
-  const { canHunt = true, huntedCoupons } = rest;
-  const imageSource = image && {uri: image};
+const HuntButton = styled(ButtonGradient)`
+  position: absolute;
+  bottom: -15;
+  min-width: 120;
+`;
 
-  let currentStatus = statusService.getCurrentStatus(status);
-  if(!canHunt) {
-    currentStatus = statusService.getCurrentStatus(statusService.constants.HUNTED);
-  }
+const Coupon = ({
+  image,
+  title,
+  maker,
+  endAt,
+  startAt,
+  status = { label: 'unavailable', color: Palette.neutralLight },
+  totalCoupons = 0,
+  onPress,
+  address,
+  tagButton = {},
+  hideTag = false,
+  hideTotalCoupons = false,
+  huntedCoupons,
+  canHunt = true,
+  ...rest,
+}) => {
+  const imageSource = image && { uri: image };
+  const makerLogo = (maker || {}).image && { uri: maker.image };
 
   return (
     <Container {...rest}>
       <CouponContainer onPress={onPress}>
         <Box>
           <LeftCouponContainer>
-            <Avatar size={50} />
+            <Avatar size={50} source={makerLogo}/>
             {!hideTotalCoupons ? <Coupons>
               <Icon size={17} name="ticket-confirmation" color={Palette.white.css()} />
-              <Typo.TextBody inverted>{(totalCoupons - huntedCoupons)}</Typo.TextBody>
+              <Typo.TextBody inverted>{(totalCoupons - (huntedCoupons || 0))}</Typo.TextBody>
             </Coupons> : null}
           </LeftCouponContainer>
 
@@ -127,14 +141,14 @@ const Coupon = ({
 
           <ContentTop colors={[Palette.dark.css(), 'transparent']}>
             <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
-            {!hideTag && <ButtonTag backgroundColor={currentStatus.color} title={currentStatus.label} {...tagButton}/>}
+            {!hideTag && <ButtonTag onPress={tagButton.onPress && tagButton.onPress} backgroundColor={status.color} title={status.label} {...tagButton}/>}
           </ContentTop>
 
             <GradientContainer colors={['transparent', Palette.dark.css()]}>
               <Content>
                 <DateText small inverted>{`${startAt} - ${endAt}`}</DateText>
                 <Title small inverted>{title}</Title>
-                {address && <Direction small inverted bold numberOfLines={1}>{address}</Direction>}
+                {address && <Direction small inverted numberOfLines={1}>{address}</Direction>}
               </Content>
             </GradientContainer>
           </ImageContainer>
