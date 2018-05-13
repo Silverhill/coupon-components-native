@@ -29,30 +29,20 @@ const ButtonAction = styled(Button)`
   align-self: stretch;
 `;
 
+Action.propTypes = {
+  type: PropTypes.oneOf(['cancel', 'template'])
+}
 
 class CustomAlert extends Component {
-  state = {
-    visible: false,
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.open !== this.props.open) {
-      this.setState({ visible: nextProps.open });
-    }
-  }
-
   render() {
-    const { actions, alertContent } = this.props;
-    const { visible } = this.state;
+    const { actions, alertContent, open } = this.props;
 
     return (
       <Container>
         <Modal
-          visible={visible}
+          visible={open}
           transparent
           animationType='fade'
-          onShow={this.onShow}
-          onDismiss={this.onDismiss}
         >
           <ContainerAlert>
             <Card>
@@ -68,7 +58,6 @@ class CustomAlert extends Component {
                       key={`alert-action-${i}`}
                       onPress={() => {
                         if(action.onPress) action.onPress();
-                        if(!(action || {}).notCloseOnPress) this.setState({ visible: false });
                       }}
                     />
                   );
