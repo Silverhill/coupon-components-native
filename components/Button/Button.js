@@ -21,8 +21,6 @@ const StyledButton = styled(View)`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
   padding-horizontal: 30;
   ${props => props.shadow && css`
     shadow-offset: 0px 0px;
@@ -50,7 +48,6 @@ const RightIcon = styled(Ionicons)`
 const Button = ({
   title, pill, shadow = true, backgroundColor, textColor, onPress, style, borderWidth, borderColor,
   disabled, leftIcon, rightIcon, iconColor, width, textProps = { bold: true }, ...rest }) => {
-
 
   const button = (
     <StyledButton

@@ -3,23 +3,30 @@ import PropTypes from 'prop-types';
 import { View, Modal, TouchableOpacity, Animated } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import Typo from '../Typography';
+import Button from '../Button/Button';
 import { Palette } from '../../styles';
 
-const Action = ({ text, onPress }) => {
+const Action = ({ text, onPress, type, template }) => {
+
+  if(type === 'cancel') {
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <Typo.TextBody color={Palette.dark.alpha(0.6).css()}>{text}</Typo.TextBody>
+      </TouchableOpacity>
+    )
+  } else if (type === 'template') {
+    return template;
+  }
+
   return (
-    <OptionContainer onPress={onPress}>
-      <Typo.TextBody color={Palette.secondaryAccent.css()}>{text}</Typo.TextBody>
-    </OptionContainer>
+    <ButtonAction pill title={text} onPress={onPress} />
   )
 };
 
-const OptionContainer = styled(TouchableOpacity)`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  height: 50;
-  border-top-color: ${Palette.neutral.alpha(0.5).css()};
-  border-top-width: 1;
+const ButtonAction = styled(Button)`
+  margin-bottom: 10;
+  margin-horizontal: 20;
+  align-self: stretch;
 `;
 
 
@@ -55,15 +62,13 @@ class CustomAlert extends Component {
 
               <ActionsContainer>
                 {(actions || []).map((action, i) => {
-                  action.type = action.type || 'close';
-
                   return (
                     <Action
+                      {...action}
                       key={`alert-action-${i}`}
-                      text={action.text}
                       onPress={() => {
                         if(action.onPress) action.onPress();
-                        if(action.type === 'close') this.setState({ visible: false });
+                        if(!(action || {}).notCloseOnPress) this.setState({ visible: false });
                       }}
                     />
                   );
@@ -89,21 +94,22 @@ const ContainerAlert = styled(View)`
 `;
 
 const Card = styled(Animated.View)`
-  min-height: 150;
   background-color: white;
   margin-horizontal: 40;
   box-shadow: 5px 5px 5px ${Palette.dark.alpha(0.4).css()};
   border-radius: 10;
+  padding: 10px 10px;
 `;
 
 const TileContainer = styled(View)`
-  flex: 1;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20;
+  padding: 10px 10px;
 `;
 
 const ActionsContainer = styled(View)`
-  flex-direction: row;
+  align-items: center;
 `;
 
 export default CustomAlert;
