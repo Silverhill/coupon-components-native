@@ -16,3 +16,4 @@ export { default as Loader } from './Loader/Loader';
 export { default as ModalOptions } from './ModalOptions/ModalOptions';
 export { default as PhotoPicker } from './Photo/PhotoPicker';
 export { default as Notification } from './Row/Notification';
+export { default as CustomAlert } from './Alert/Alert';

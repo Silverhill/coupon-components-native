@@ -7,6 +7,83 @@ import { Avatar, Typo, ButtonTag, ButtonGradient } from '../index.js';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
 
+const Coupon = ({
+  image,
+  title,
+  maker,
+  endAt,
+  startAt,
+  status = { label: 'unavailable', color: Palette.neutralLight },
+  totalCoupons = 0,
+  onPress,
+  address,
+  tagButton = {},
+  hideTag = false,
+  hideTotalCoupons = false,
+  huntedCoupons,
+  canHunt = true,
+  ...rest,
+}) => {
+  const imageSource = image && { uri: image };
+  const makerLogo = (maker || {}).image && { uri: maker.image };
+
+  return (
+    <Container {...rest}>
+      <CouponContainer onPress={onPress}>
+        <Box>
+          <LeftCouponContainer>
+            <Avatar size={50} source={makerLogo}/>
+            {!hideTotalCoupons ? <Coupons>
+              <Icon size={17} name="ticket-confirmation" color={Palette.white.css()} />
+              <Typo.TextBody inverted>{(totalCoupons - (huntedCoupons || 0))}</Typo.TextBody>
+            </Coupons> : null}
+          </LeftCouponContainer>
+
+          <ImageContainer
+            resizeMode="cover"
+            source={imageSource}
+          >
+
+          <ContentTop colors={[Palette.dark.css(), 'transparent']}>
+            <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
+            {!hideTag &&
+              <ButtonTag
+                onPress={tagButton.onPress && tagButton.onPress}
+                backgroundColor={status.color}
+                title={status.label}
+                {...tagButton}
+              />}
+          </ContentTop>
+
+            <GradientContainer colors={['transparent', Palette.dark.css()]}>
+              <Content>
+                <DateText small inverted>{`${startAt} - ${endAt}`}</DateText>
+                <Title small inverted>{title}</Title>
+                {address && <Direction small inverted numberOfLines={1}>{address}</Direction>}
+              </Content>
+            </GradientContainer>
+          </ImageContainer>
+        </Box>
+      </CouponContainer>
+    </Container>
+  );
+};
+
+Coupon.defaultProps = {
+  onPress: () => null,
+};
+
+Coupon.propTypes = {
+  image: PropTypes.any,
+  avatarSource: PropTypes.any,
+  title: PropTypes.string,
+  endAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  startAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  maker: PropTypes.object,
+  totalCoupons: PropTypes.number,
+};
+
+// Styles
 const COUPON_HEIGHT = 250;
 const Container = styled(View)`
   box-shadow: 5px 5px 5px ${Palette.dark.alpha(0.4).css()};
@@ -101,81 +178,5 @@ const HuntButton = styled(ButtonGradient)`
   bottom: -15;
   min-width: 120;
 `;
-
-const Coupon = ({
-  image,
-  title,
-  maker,
-  endAt,
-  startAt,
-  status = { label: 'unavailable', color: Palette.neutralLight },
-  totalCoupons = 0,
-  onPress,
-  address,
-  tagButton = {},
-  hideTag = false,
-  hideTotalCoupons = false,
-  huntedCoupons,
-  canHunt = true,
-  ...rest,
-}) => {
-  const imageSource = image && { uri: image };
-  const makerLogo = (maker || {}).image && { uri: maker.image };
-
-  return (
-    <Container {...rest}>
-      <CouponContainer onPress={onPress}>
-        <Box>
-          <LeftCouponContainer>
-            <Avatar size={50} source={makerLogo}/>
-            {!hideTotalCoupons ? <Coupons>
-              <Icon size={17} name="ticket-confirmation" color={Palette.white.css()} />
-              <Typo.TextBody inverted>{(totalCoupons - (huntedCoupons || 0))}</Typo.TextBody>
-            </Coupons> : null}
-          </LeftCouponContainer>
-
-          <ImageContainer
-            resizeMode="cover"
-            source={imageSource}
-          >
-
-          <ContentTop colors={[Palette.dark.css(), 'transparent']}>
-            <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
-            {!hideTag &&
-              <ButtonTag
-                onPress={tagButton.onPress && tagButton.onPress}
-                backgroundColor={status.color}
-                title={status.label}
-                {...tagButton}
-              />}
-          </ContentTop>
-
-            <GradientContainer colors={['transparent', Palette.dark.css()]}>
-              <Content>
-                <DateText small inverted>{`${startAt} - ${endAt}`}</DateText>
-                <Title small inverted>{title}</Title>
-                {address && <Direction small inverted numberOfLines={1}>{address}</Direction>}
-              </Content>
-            </GradientContainer>
-          </ImageContainer>
-        </Box>
-      </CouponContainer>
-    </Container>
-  );
-};
-
-Coupon.defaultProps = {
-  onPress: () => null,
-};
-
-Coupon.propTypes = {
-  image: PropTypes.any,
-  avatarSource: PropTypes.any,
-  title: PropTypes.string,
-  endAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  startAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  maker: PropTypes.object,
-  totalCoupons: PropTypes.number,
-};
 
 export default Coupon;
