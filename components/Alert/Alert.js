@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { View, Modal, TouchableOpacity, Animated } from 'react-native';
 import styled, { css } from 'styled-components/native';
@@ -33,14 +33,28 @@ Action.propTypes = {
   type: PropTypes.oneOf(['cancel', 'template'])
 }
 
-class CustomAlert extends Component {
+class CustomAlert extends PureComponent {
+  state = {
+    isOpen: false,
+  }
+
+  show = () => {
+    this.setState({ isOpen: true });
+  }
+
+  close = () => {
+    this.setState({ isOpen: false });
+  }
+
   render() {
     const { actions, alertContent, open } = this.props;
+    console.log('RENDER');
+    // TODO: WIP: haciendo nuevamente la alerta
 
     return (
       <Container>
         <Modal
-          visible={open}
+          visible={this.state.isOpen}
           transparent
           animationType='fade'
         >
@@ -74,6 +88,7 @@ class CustomAlert extends Component {
 const Container = styled(View)`
   flex: 1;
   justify-content: center;
+  position: absolute;
 `;
 
 const ContainerAlert = styled(View)`
