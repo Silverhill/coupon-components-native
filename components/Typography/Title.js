@@ -8,7 +8,8 @@ const Title = styled(Text)`
   font-weight: ${(props) => {
     if(props.light) return 300;
     else if(props.normal) return 'normal';
-    return 900;
+    else if(props.extraBold) return 900;
+    return 800;
   }};
   background-color: transparent;
   color: ${props => {

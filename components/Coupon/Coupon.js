@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, ImageBackground, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, ImageBackground, Image, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import { Palette } from '../../styles';
 import { Avatar, Typo, ButtonTag, ButtonGradient } from '../index.js';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo';
+import { LinearGradient, BlurView } from 'expo';
 
 const Coupon = ({
   image,
@@ -19,9 +19,10 @@ const Coupon = ({
   address,
   tagButton = {},
   hideTag = false,
-  hideTotalCoupons = false,
+  hideTotalCoupons,
   huntedCoupons,
   canHunt = true,
+  small,
   ...rest,
 }) => {
   const imageSource = image && { uri: image };
@@ -30,39 +31,42 @@ const Coupon = ({
   return (
     <Container {...rest}>
       <CouponContainer onPress={onPress}>
-        <Box>
+        <Box small={small}>
           <LeftCouponContainer>
             <Avatar size={50} source={makerLogo}/>
-            {!hideTotalCoupons ? <Coupons>
+            {!hideTotalCoupons && <Coupons>
               <Icon size={17} name="ticket-confirmation" color={Palette.white.css()} />
               <Typo.TextBody inverted>{(totalCoupons - (huntedCoupons || 0))}</Typo.TextBody>
-            </Coupons> : null}
+            </Coupons>}
           </LeftCouponContainer>
 
-          <ImageContainer
-            resizeMode="cover"
-            source={imageSource}
-          >
+          <RightContainer>
+            <ImageContainer
+              resizeMode="cover"
+              source={imageSource}
+            />
+            {small && <BlurViewContainer tint='dark' intensity={80} />}
 
-          <ContentTop colors={[Palette.dark.css(), 'transparent']}>
-            <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
-            {!hideTag &&
-              <ButtonTag
-                onPress={tagButton.onPress && tagButton.onPress}
-                backgroundColor={status.color}
-                title={status.label}
-                {...tagButton}
-              />}
-          </ContentTop>
+            <ContentTop colors={[small ? 'transparent' : Palette.dark.css(), 'transparent']}>
+              <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
+              {!hideTag &&
+                <ButtonTag
+                  onPress={tagButton.onPress && tagButton.onPress}
+                  backgroundColor={status.color}
+                  title={status.label}
+                  {...tagButton}
+                />}
+            </ContentTop>
 
-            <GradientContainer colors={['transparent', Palette.dark.css()]}>
+            <GradientContainer colors={['transparent', small ? 'transparent' : Palette.dark.css()]}>
               <Content>
                 <DateText small inverted>{`${startAt} - ${endAt}`}</DateText>
-                <Title small inverted>{title}</Title>
+                <Title small smallCoupon={small} inverted numberOfLines={2}>{title}</Title>
                 {address && <Direction small inverted numberOfLines={1}>{address}</Direction>}
               </Content>
             </GradientContainer>
-          </ImageContainer>
+          </RightContainer>
+
         </Box>
       </CouponContainer>
     </Container>
@@ -96,11 +100,26 @@ const Container = styled(View)`
 
 const CouponContainer = styled(TouchableWithoutFeedback)``;
 
-const ImageContainer = styled(ImageBackground)`
-  background-color: grey;
-  height: ${COUPON_HEIGHT};
-  border-radius: 10;
+const RightContainer = styled(View)`
+  position: relative;
+  top: 0;
+  left: 0;
   flex: 1;
+  align-items: flex-start;
+  justify-content: flex-end;
+  height: 100%;
+`;
+
+const BlurViewContainer = styled(BlurView)`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+`;
+const ImageContainer = styled(Image)`
+  background-color: grey;
+  position: absolute;
+  width: 100%;
+  height: 100%;
   align-items: flex-start;
   justify-content: flex-end;
 `;
@@ -125,13 +144,13 @@ const ContentTop = styled(LinearGradient)`
   right: 0;
   flex-direction: row;
   align-items: center;
-  padding-horizontal: 5px;
-  padding-top: 10px;
-  padding-bottom: 30px;
+  padding-horizontal: 10;
+  padding-top: 10;
+  padding-bottom: 30;
 `;
 
 const LeftCouponContainer = styled(View)`
-  height: ${COUPON_HEIGHT};
+  height: 100%;
   padding-horizontal: 20;
   padding-vertical: 10;
   align-items: center;
@@ -160,13 +179,13 @@ const Direction = styled(Typo.TextBody)`
 
 const Title = styled(Typo.Title)`
   line-height: 22;
-  margin-bottom: 10;
+  margin-bottom: ${props => props.smallCoupon ? '1' : 10};
 `;
 
 const Box = styled(View)`
   overflow: hidden;
   background-color: ${Palette.dark};
-  height: ${COUPON_HEIGHT};
+  height: ${props => props.small ? 150 : COUPON_HEIGHT};
   border-radius: 10;
   justify-content: center;
   align-items: center;

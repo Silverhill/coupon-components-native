@@ -11,7 +11,7 @@ const Action = ({ text, onPress, type, template }) => {
   if(type === 'cancel') {
     return (
       <TouchableOpacity onPress={onPress}>
-        <Typo.TextBody color={Palette.dark.alpha(0.6).css()}>{text}</Typo.TextBody>
+        <Typo.TextBody color={Palette.secondaryAccent.alpha(0.6).css()}>{text}</Typo.TextBody>
       </TouchableOpacity>
     )
   } else if (type === 'template') {
@@ -47,9 +47,7 @@ class CustomAlert extends PureComponent {
   }
 
   render() {
-    const { actions, alertContent, open } = this.props;
-    console.log('RENDER');
-    // TODO: WIP: haciendo nuevamente la alerta
+    const { actions, alertContent } = this.props;
 
     return (
       <Container>
@@ -114,6 +112,7 @@ const TileContainer = styled(View)`
 
 const ActionsContainer = styled(View)`
   align-items: center;
+  margin-bottom: 10;
 `;
 
 export default CustomAlert;
