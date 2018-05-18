@@ -20,7 +20,6 @@ const Coupon = ({
   tagButton = {},
   hideTag = false,
   hideTotalCoupons,
-  huntedCoupons,
   canHunt = true,
   small,
   ...rest,
@@ -36,7 +35,7 @@ const Coupon = ({
             <Avatar size={50} source={makerLogo}/>
             {!hideTotalCoupons && <Coupons>
               <Icon size={17} name="ticket-confirmation" color={Palette.white.css()} />
-              <Typo.TextBody inverted>{(totalCoupons - (huntedCoupons || 0))}</Typo.TextBody>
+              <Typo.TextBody inverted>{totalCoupons}</Typo.TextBody>
             </Coupons>}
           </LeftCouponContainer>
 
