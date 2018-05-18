@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import { Palette } from '../../styles';
 import { Typo, Avatar } from '../index';
 import { Ionicons } from '@expo/vector-icons';
+import { Constants } from 'expo';
 
 export default class HeaderBar extends Component {
   render() {
@@ -26,7 +27,7 @@ export default class HeaderBar extends Component {
                 />
               </TouchableOpacity>
             }
-            <Typo.Title>{title}</Typo.Title>
+            <Typo.Title extraBold>{title}</Typo.Title>
           </LeftContent>
 
           {Object.keys(avatarOptions).length > 0 &&
@@ -49,8 +50,8 @@ export default class HeaderBar extends Component {
 
 const Container = styled(View)`
   background-color: ${Palette.white};
-  padding-top: 30;
   padding-bottom: 10;
+  padding-top: ${Constants.statusBarHeight};
   padding-horizontal: 10;
   border-bottom-color: ${Palette.neutralLight};
   border-bottom-width: 1;
