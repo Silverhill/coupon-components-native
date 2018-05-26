@@ -22,6 +22,7 @@ const Coupon = ({
   hideTotalCoupons,
   canHunt = true,
   small,
+  background,
   ...rest,
 }) => {
   const imageSource = image && { uri: image };
@@ -30,7 +31,7 @@ const Coupon = ({
   return (
     <Container {...rest}>
       <CouponContainer onPress={onPress}>
-        <Box small={small}>
+        <Box small={small} background={background}>
           <LeftCouponContainer>
             <Avatar size={50} source={makerLogo}/>
             {!hideTotalCoupons && <Coupons>
@@ -183,7 +184,7 @@ const Title = styled(Typo.Title)`
 
 const Box = styled(View)`
   overflow: hidden;
-  background-color: ${Palette.dark};
+  background-color: ${props => props.background ? props.background : Palette.dark};
   height: ${props => props.small ? 150 : COUPON_HEIGHT};
   border-radius: 10;
   justify-content: center;
