@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, Modal, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Button, Typo } from 'coupon-components-native'
 import { Palette } from 'coupon-components-native/styles'
 import ActionSheetOption from './ActionSheetOption';
+import Modal from 'expo/src/modal/Modal';
 
 class ModalOptions extends Component {
 
@@ -74,7 +75,7 @@ ModalOptions.defaultProps = {
 
 ModalOptions.propTypes = {
   isOpen: PropTypes.bool,
-  animationType: PropTypes.oneOf(['fade', 'slide', 'node']),
+  animationType: PropTypes.oneOf(['fade', 'slide', 'none']),
   transparent: PropTypes.bool,
   opacity: PropTypes.number,
   onCloseRequest: PropTypes.func,

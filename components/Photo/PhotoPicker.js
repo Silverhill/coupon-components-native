@@ -66,7 +66,6 @@ const options = [
 export default class PhotoPicker extends Component {
   state = {
     image: null,
-    cameraIsOpen: false,
     isModalOpen: false,
   }
 
