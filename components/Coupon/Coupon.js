@@ -11,12 +11,12 @@ const Coupon = ({
   image,
   title,
   maker,
+  office,
   endAt,
   startAt,
   status = { label: 'unavailable', color: Palette.neutralLight },
   totalCoupons = 0,
   onPress,
-  address,
   tagButton = {},
   hideTag = false,
   hideTotalCoupons,
@@ -26,14 +26,14 @@ const Coupon = ({
   ...rest,
 }) => {
   const imageSource = image && { uri: image };
-  const makerLogo = (maker || {}).image && { uri: maker.image };
+  const companyLogo = (((office || {}).company || {}).logo) && { uri: office.company.logo };
 
   return (
     <Container {...rest}>
       <CouponContainer onPress={onPress}>
         <Box small={small} background={background}>
           <LeftCouponContainer>
-            <Avatar size={50} source={makerLogo}/>
+            <Avatar size={50} source={companyLogo}/>
             {!hideTotalCoupons && <Coupons>
               <Icon size={17} name="ticket-confirmation" color={Palette.white.css()} />
               <Typo.TextBody inverted>{totalCoupons}</Typo.TextBody>
@@ -62,7 +62,7 @@ const Coupon = ({
               <Content>
                 <DateText small inverted>{`${startAt} - ${endAt}`}</DateText>
                 <Title small smallCoupon={small} inverted numberOfLines={2}>{title}</Title>
-                {address && <Direction small inverted numberOfLines={1}>{address}</Direction>}
+                {office.address && <Direction small inverted numberOfLines={1}>{office.address}</Direction>}
               </Content>
             </GradientContainer>
           </RightContainer>
