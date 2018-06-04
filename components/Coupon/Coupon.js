@@ -45,7 +45,7 @@ const Coupon = ({
               resizeMode="cover"
               source={imageSource}
             />
-            {small && <BlurViewContainer tint='dark' intensity={80} />}
+            {small && <BlurViewContainer tint='dark' intensity={95} />}
 
             <ContentTop colors={[small ? 'transparent' : Palette.dark.css(), 'transparent']}>
               <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
