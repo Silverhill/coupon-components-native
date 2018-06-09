@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableWithoutFeedback, Image as Img } from 'react-native';
+import { Image } from 'react-native-expo-image-cache';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components/native';
 import { Palette } from 'coupon-components-native/styles';
 
-const Avatar = ({ size = 50, borderColor, source, style, ...rest}) => {
+const Avatar = ({ size = 50, borderColor, source, style, uri, cached, ...rest}) => {
   let currentSource = source;
   if((source || {}).uri || '') {
     currentSource = { source };
@@ -13,7 +14,8 @@ const Avatar = ({ size = 50, borderColor, source, style, ...rest}) => {
   return (
     <TouchableWithoutFeedback onPress={rest.onPress}>
       <Container size={size} borderColor={borderColor} style={style}>
-        <StyledImage size={size} resizeMode="cover" {...currentSource} { ...rest }/>
+        {cached && <CachedImage size={size} uri={uri} />}
+        {!cached && <StyledImage size={size} resizeMode="cover" {...currentSource} { ...rest }/>}
       </Container>
     </TouchableWithoutFeedback>
   );
@@ -53,7 +55,13 @@ const Container = styled(View)`
   }};
 `;
 
-const StyledImage = styled(Image)`
+const StyledImage = styled(Img)`
+  flex: 1;
+  width: ${props => props.size};
+  height: ${props => props.size};
+`;
+
+const CachedImage = styled(Image)`
   flex: 1;
   width: ${props => props.size};
   height: ${props => props.size};

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, ImageBackground, Image, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import { Palette } from '../../styles';
 import { Avatar, Typo, ButtonTag, ButtonGradient } from '../index.js';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient, BlurView } from 'expo';
+import { Image } from 'react-native-expo-image-cache';
 
 const Coupon = ({
   image,
@@ -33,7 +34,7 @@ const Coupon = ({
       <CouponContainer onPress={onPress}>
         <Box small={small} background={background}>
           <LeftCouponContainer>
-            <Avatar size={50} source={companyLogo}/>
+            <Avatar size={50} {...companyLogo} />
             {!hideTotalCoupons && <Coupons>
               <Icon size={17} name="ticket-confirmation" color={Palette.white.css()} />
               <Typo.TextBody inverted>{totalCoupons}</Typo.TextBody>
@@ -43,9 +44,10 @@ const Coupon = ({
           <RightContainer>
             <ImageContainer
               resizeMode="cover"
-              source={imageSource}
+              // source={imageSource}
+              {...imageSource}
             />
-            {small && <BlurViewContainer tint='dark' intensity={95} />}
+            {small && <Overlay />}
 
             <ContentTop colors={[small ? 'transparent' : Palette.dark.css(), 'transparent']}>
               <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
@@ -110,10 +112,12 @@ const RightContainer = styled(View)`
   height: 100%;
 `;
 
-const BlurViewContainer = styled(BlurView)`
+const Overlay = styled(View)`
   width: 100%;
   height: 100%;
   position: absolute;
+  background-color: ${Palette.colors.black};
+  opacity: 0.7;
 `;
 const ImageContainer = styled(Image)`
   background-color: grey;

@@ -16,6 +16,7 @@ export const colors = {
   brightBlue: chroma('#0076ff'),
   aquamarine: chroma('#02e5b0'),
   squash: chroma('#f5a623'),
+  black: chroma('#000'),
 };
 
 const palette = {
