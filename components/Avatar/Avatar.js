@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components/native';
 import { Palette } from 'coupon-components-native/styles';
 
-const Avatar = ({ size = 50, borderColor, source, style, uri, cached, ...rest}) => {
+const Avatar = ({ size = 50, borderColor, source, style, uri, cached = false, ...rest}) => {
   let currentSource = source;
   if((source || {}).uri || '') {
     currentSource = { source };

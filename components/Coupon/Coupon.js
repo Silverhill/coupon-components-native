@@ -28,29 +28,29 @@ const Coupon = ({
 }) => {
   const imageSource = image && { uri: image };
   const companyLogo = (((office || {}).company || {}).logo) && { uri: office.company.logo };
+  const businessName = ((office || {}).company || {}).businessName || '';
 
   return (
     <Container {...rest}>
       <CouponContainer onPress={onPress}>
         <Box small={small} background={background}>
           <LeftCouponContainer>
-            <Avatar size={50} {...companyLogo} />
+            <Avatar size={50} source={companyLogo} />
             {!hideTotalCoupons && <Coupons>
               <Icon size={17} name="ticket-confirmation" color={Palette.white.css()} />
-              <Typo.TextBody inverted>{totalCoupons}</Typo.TextBody>
+              <Typo.Header bold inverted>{totalCoupons}</Typo.Header>
             </Coupons>}
           </LeftCouponContainer>
 
           <RightContainer>
             <ImageContainer
               resizeMode="cover"
-              // source={imageSource}
               {...imageSource}
             />
             {small && <Overlay />}
 
             <ContentTop colors={[small ? 'transparent' : Palette.dark.css(), 'transparent']}>
-              <SubTitle numberOfLines={1} small inverted bold>{((maker || {}).name || '').toUpperCase()}</SubTitle>
+              <SubTitle numberOfLines={1} small inverted bold>{businessName.toUpperCase()}</SubTitle>
               {!hideTag &&
                 <ButtonTag
                   onPress={tagButton.onPress && tagButton.onPress}
