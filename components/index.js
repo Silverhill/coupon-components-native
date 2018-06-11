@@ -17,3 +17,6 @@ export { default as ModalOptions } from './ModalOptions/ModalOptions';
 export { default as PhotoPicker } from './Photo/PhotoPicker';
 export { default as Notification } from './Row/Notification';
 export { default as CustomAlert } from './Alert/Alert';
+export { default as Badge } from './Badge/Badge';
+export { default as Achievement } from './Badge/Achievement';
+export { default as Bar } from './Bar/Bar';

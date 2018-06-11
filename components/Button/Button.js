@@ -46,16 +46,17 @@ const RightIcon = styled(Ionicons)`
 `;
 
 const Button = ({
-  title, pill, shadow = true, backgroundColor, textColor, onPress, style, borderWidth, borderColor,
+  title, pill, secondary, shadow = true, backgroundColor, textColor, onPress, style, borderWidth, borderColor,
   disabled, leftIcon, rightIcon, iconColor, width, textProps = { bold: true }, ...rest }) => {
 
+  const secondaryColor = secondary && Palette.neutralLight.css();
   const button = (
     <StyledButton
       borderColor={borderColor}
       borderWidth={borderWidth}
       shadow={shadow}
       width={width}
-      backgroundColor={backgroundColor}
+      backgroundColor={backgroundColor || secondaryColor}
       pill={pill}
       disabled={disabled}
       style={disabled ? style : null}>
